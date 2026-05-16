@@ -1,16 +1,13 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
-  Cloud,
-  Zap,
-  Shield,
   ArrowRight,
   Coffee,
   Check,
   Sparkles
 } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/Button';
-import { Card, CardContent } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 
 export default function LandingPage() {
@@ -71,42 +68,91 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Features Grid */}
-      <section className="py-24 bg-muted/30">
+      {/* Pricing Section */}
+      <section className="py-24 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold mb-4">Built for Speed and Security</h2>
-            <p className="text-muted-foreground max-w-xl mx-auto">Everything you need to manage document printing in a high-traffic environment.</p>
+            <h2 className="text-4xl font-black mb-4 tracking-tight">Simple, Transparent Pricing</h2>
+            <p className="text-muted-foreground max-w-xl mx-auto font-medium">Choose the plan that fits your cafe's volume.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { 
-                icon: Cloud, 
-                title: 'Remote Upload', 
-                desc: 'Customers scan a QR and upload files from their own devices without any app installation.' 
-              },
-              { 
-                icon: Zap, 
-                title: 'Real-time Sync', 
-                desc: 'Owner dashboard updates instantly when a new file is uploaded. No refresh needed.' 
-              },
-              { 
-                icon: Shield, 
-                title: 'Secure Transmission', 
-                desc: 'Files are processed through secure channels and deleted after printing to ensure privacy.' 
-              }
-            ].map((f, i) => (
-              <Card key={i} className="border-none bg-background/50 hover:bg-background transition-colors duration-300">
-                <CardContent className="p-8">
-                  <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary mb-6">
-                    <f.icon className="w-6 h-6" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {/* Basic Plan */}
+            <motion.div 
+              whileHover={{ y: -5 }}
+              className="glass rounded-[32px] p-8 border-slate-200/50 flex flex-col h-full"
+            >
+              <div className="mb-8">
+                <h3 className="text-xl font-bold mb-2">Basic</h3>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-4xl font-black">$0</span>
+                  <span className="text-muted-foreground font-bold">/month</span>
+                </div>
+                <p className="text-sm text-muted-foreground mt-4">Perfect for small kiosks or starting out.</p>
+              </div>
+
+              <div className="space-y-4 mb-10 flex-1">
+                {[
+                  { text: '10 Jobs / Day (200 Monthly)', active: true },
+                  { text: 'Full Dashboard Access', active: true },
+                  { text: 'Direct File Previewer', active: true },
+                  { text: 'Real-time Print Queue', active: true },
+                  { text: 'Daily History & Stats', active: true },
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center gap-3 text-sm font-medium text-slate-700">
+                    <Check className="w-4 h-4 text-emerald-500 shrink-0" />
+                    <span>{item.text}</span>
                   </div>
-                  <h3 className="text-xl font-bold mb-3">{f.title}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">{f.desc}</p>
-                </CardContent>
-              </Card>
-            ))}
+                ))}
+              </div>
+
+              <Button variant="outline" className="w-full h-12 rounded-2xl font-bold" asChild>
+                <Link to="/signup">Start Free</Link>
+              </Button>
+            </motion.div>
+
+            {/* Pro Plan */}
+            <motion.div 
+              whileHover={{ y: -5 }}
+              className="relative glass rounded-[32px] p-8 border-indigo-500/30 bg-indigo-500/[0.03] shadow-2xl shadow-indigo-500/10 flex flex-col h-full overflow-hidden"
+            >
+              <div className="absolute top-0 right-0 bg-indigo-600 text-white text-[10px] font-black px-4 py-1 rounded-bl-xl uppercase tracking-widest">
+                Recommended
+              </div>
+              
+              <div className="mb-8">
+                <h3 className="text-xl font-bold mb-2 flex items-center gap-2">
+                  Pro <Sparkles className="w-4 h-4 text-indigo-500" />
+                </h3>
+                <div className="flex items-baseline gap-1">
+                  <span className="text-4xl font-black text-slate-900">$19</span>
+                  <span className="text-muted-foreground font-bold">/month</span>
+                </div>
+                <p className="text-sm text-muted-foreground mt-4">For busy shops needing unlimited volume.</p>
+              </div>
+
+              <div className="space-y-4 mb-10 flex-1">
+                {[
+                  { text: 'UNLIMITED Monthly Uploads', active: true, highlighted: true },
+                  { text: 'Full Dashboard Access', active: true },
+                  { text: 'Direct File Previewer', active: true },
+                  { text: 'Real-time Print Queue', active: true },
+                  { text: 'Daily History & Stats', active: true },
+                ].map((item, i) => (
+                  <div key={i} className={cn(
+                    "flex items-center gap-3 text-sm font-bold",
+                    item.highlighted ? "text-indigo-600" : "text-slate-700"
+                  )}>
+                    <Check className={cn("w-4 h-4 shrink-0", item.highlighted ? "text-indigo-600" : "text-emerald-500")} />
+                    <span>{item.text}</span>
+                  </div>
+                ))}
+              </div>
+
+              <Button className="w-full h-12 rounded-2xl font-black shadow-lg shadow-primary/20" asChild>
+                <Link to="/signup">Upgrade to Pro</Link>
+              </Button>
+            </motion.div>
           </div>
         </div>
       </section>

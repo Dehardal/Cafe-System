@@ -1,15 +1,15 @@
 import { Link, useLocation } from 'react-router-dom';
 import { cn } from '@/lib/utils';
-import {
-  LayoutDashboard,
-  Printer,
-  History,
-  BarChart3,
-  Settings,
-  LogOut,
-  ChevronLeft,
-  ChevronRight,
-  Coffee
+import { 
+  LayoutDashboard, 
+  Printer, 
+  History, 
+  BarChart3, 
+  Settings, 
+  LogOut, 
+  ChevronLeft, 
+  ChevronRight, 
+  Coffee 
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { useState } from 'react';

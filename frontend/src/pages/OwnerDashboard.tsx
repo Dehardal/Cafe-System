@@ -39,7 +39,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/Table';
-import { Avatar, AvatarFallback } from '@/components/ui/Avatar';
+
 import { cn } from '@/lib/utils';
 
 import { QRModal } from '@/components/dashboard/QRModal';
@@ -132,7 +132,15 @@ export default function OwnerDashboard() {
       <div className="bg-white rounded-xl border border-slate-200/60 shadow-lg shadow-slate-200/10 overflow-hidden">
         <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between bg-white sticky top-0 z-10">
           <div className="flex items-center gap-4 flex-1">
-            <h2 className="text-lg font-black text-slate-900 tracking-tight whitespace-nowrap">Live Queue</h2>
+            <div className="flex items-center gap-3">
+              <h2 className="text-lg font-black text-slate-900 tracking-tight whitespace-nowrap">Live Queue</h2>
+              <Badge className={cn(
+                "text-[9px] px-2 py-0 h-4 border-none shadow-sm font-black uppercase tracking-widest",
+                user?.plan === 'Pro' ? "bg-indigo-600 text-white" : "bg-slate-200 text-slate-600"
+              )}>
+                {user?.plan === 'Pro' ? 'PRO PLAN' : 'FREE PLAN'}
+              </Badge>
+            </div>
             <div className="relative w-full max-w-xs group">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
               <Input

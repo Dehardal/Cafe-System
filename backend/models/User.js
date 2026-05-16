@@ -22,6 +22,26 @@ const userSchema = mongoose.Schema({
     qrCodeUrl: {
         type: String,
     },
+    plan: {
+        type: String,
+        enum: ['Free', 'Pro'],
+        default: 'Pro', // Default to Pro for existing users to prevent interruption
+    },
+    subscriptionStatus: {
+        type: String,
+        enum: ['active', 'inactive', 'trialing', 'past_due'],
+        default: 'active',
+    },
+    stripeCustomerId: {
+        type: String,
+    },
+    subscriptionId: {
+        type: String,
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false,
+    },
 }, {
     timestamps: true,
 });

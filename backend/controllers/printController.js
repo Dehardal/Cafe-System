@@ -15,7 +15,29 @@ mongoose.connection.once('open', () => {
 // @route   POST /api/print/upload
 // @access  Public
 const createPrintJob = asyncHandler(async (req, res) => {
-    const { ownerId, customerName, phone, copies, printType, notes } = req.body;
+    const { ownerId, customerName, copies, printType, notes } = req.body;
+
+    // SaaS Phase 1: Usage Limit Check
+    const owner = await mongoose.model('User').findById(ownerId);
+    if (!owner) {
+        res.status(404);
+        throw new Error('Shop owner not found');
+    }
+
+    if (owner.plan === 'Free') {
+        const startOfDay = new Date();
+        startOfDay.setHours(0, 0, 0, 0);
+        
+        const jobCount = await PrintJob.countDocuments({
+            ownerId,
+            createdAt: { $gte: startOfDay }
+        });
+
+        if (jobCount >= 10) {
+            res.status(403);
+            throw new Error('Daily print limit reached for this free shop. Please tell the owner to upgrade to Pro!');
+        }
+    }
 
     if (!req.file) {
         res.status(400);

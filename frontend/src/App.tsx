@@ -12,6 +12,7 @@ import PrintQueue from '@/pages/PrintQueue';
 import HistoryPage from '@/pages/HistoryPage';
 import AnalyticsPage from '@/pages/AnalyticsPage';
 import SettingsPage from '@/pages/SettingsPage';
+import SuperAdminDashboard from '@/pages/SuperAdminDashboard';
 import CustomerUpload from '@/pages/CustomerUpload';
 import ProtectedRoute from '@/components/ProtectedRoute';
 
@@ -47,6 +48,9 @@ function App() {
           <Route path="/analytics" element={<AnalyticsPage />} />
           <Route path="/settings" element={<SettingsPage />} />
         </Route>
+
+        {/* Private Admin Portal */}
+        <Route path="/admin-portal-v1" element={<SuperAdminDashboard />} />
 
         {/* Customer Facing Pages */}
         <Route path="/upload/:ownerId" element={<CustomerUpload />} />

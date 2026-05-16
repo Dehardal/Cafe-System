@@ -7,6 +7,9 @@ interface User {
   email: string;
   shopName: string;
   qrCodeUrl?: string;
+  plan: 'Free' | 'Pro';
+  subscriptionStatus: 'active' | 'inactive' | 'trialing' | 'past_due';
+  isAdmin: boolean;
   token: string;
 }
 
