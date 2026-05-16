@@ -185,39 +185,30 @@ export default function OwnerDashboard() {
                       exit={{ opacity: 0, scale: 0.98 }}
                       className="group border-b border-slate-50 hover:bg-slate-50/50 transition-colors"
                     >
-                      <TableCell className="py-2.5 pl-6">
-                        <div className="flex items-center gap-3">
-                          <Avatar className="h-7 w-7 ring-1 ring-slate-100">
-                            <AvatarFallback className="text-[10px] bg-primary/10 text-primary font-black">
-                              {job.customerName.charAt(0).toUpperCase()}
-                            </AvatarFallback>
-                          </Avatar>
-                          <div className="flex flex-col leading-tight">
-                            <span className="font-bold text-slate-900 text-sm">{job.customerName}</span>
-                          </div>
-                        </div>
+                      <TableCell className="py-4 pl-6">
+                        <span className="font-black text-slate-900 text-base tracking-tight uppercase">{job.customerName}</span>
                       </TableCell>
-                      <TableCell className="py-2.5">
-                        <div className="flex items-center gap-2">
-                          <FileText className="w-3.5 h-3.5 text-slate-400" />
+                      <TableCell className="py-4">
+                        <div className="flex items-center gap-3">
+                          <FileText className="w-4 h-4 text-slate-400" />
                           <div className="flex flex-col leading-tight">
-                            <span className="text-xs font-bold text-slate-700 truncate max-w-[200px]">{job.fileName}</span>
+                            <span className="text-sm font-black text-slate-700 truncate max-w-[250px]">{job.fileName}</span>
                             <div className="flex items-center gap-2 mt-1">
-                              <span className="text-[10px] font-black text-primary uppercase">{job.copies} Copies</span>
-                              <span className="text-[10px] font-black text-slate-400 uppercase">• {job.printType}</span>
+                              <span className="text-xs font-black text-primary uppercase">{job.copies} Copies</span>
+                              <span className="text-xs font-black text-slate-400 uppercase">• {job.printType}</span>
                             </div>
                           </div>
                         </div>
                       </TableCell>
-                      <TableCell className="py-2.5">
+                      <TableCell className="py-4">
                         <div className="flex justify-center">
                           <Badge className={cn(
-                            "text-[10px] font-black uppercase px-2.5 py-0.5 h-5 border-none flex items-center gap-1.5 shadow-sm",
+                            "text-xs font-black uppercase px-3 py-1 h-6 border-none flex items-center gap-2 shadow-sm",
                             job.status === 'Pending' ? "bg-amber-50 text-amber-600" :
                               job.status === 'Printing' ? "bg-sky-50 text-sky-600 animate-pulse" :
                                 "bg-emerald-50 text-emerald-600"
                           )}>
-                            <div className={cn("w-1.5 h-1.5 rounded-full",
+                            <div className={cn("w-2 h-2 rounded-full",
                               job.status === 'Pending' ? "bg-amber-500" :
                                 job.status === 'Printing' ? "bg-sky-500" : "bg-emerald-500"
                             )} />
