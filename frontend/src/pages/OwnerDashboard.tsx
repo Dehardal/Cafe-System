@@ -124,7 +124,12 @@ export default function OwnerDashboard() {
   return (
     <div className="space-y-4 animate-in fade-in duration-500 pb-4">
       <QRModal isOpen={isQRModalOpen} onClose={() => setIsQRModalOpen(false)} shopUrl={shopUrl} shopName={user?.shopName || 'Shop'} />
-      <FilePreviewModal isOpen={!!previewJob} onClose={() => setPreviewJob(null)} fileUrl={previewJob?.fileUrl} fileName={previewJob?.fileName} />
+      <FilePreviewModal 
+        isOpen={!!previewJob} 
+        onClose={() => setPreviewJob(null)} 
+        fileUrl={previewJob?.fileUrl ? (previewJob.fileUrl.startsWith('http') ? previewJob.fileUrl : `${import.meta.env.VITE_API_URL}${previewJob.fileUrl}`) : ''} 
+        fileName={previewJob?.fileName || ''} 
+      />
 
       {/* Stats - Compact Row */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
