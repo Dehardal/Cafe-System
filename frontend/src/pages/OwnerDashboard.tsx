@@ -100,16 +100,7 @@ export default function OwnerDashboard() {
     }
   };
 
-  const handleUpdateStatus = async (id: string, currentStatus: string) => {
-    const nextStatus = currentStatus === 'Pending' ? 'Printing' : 'Completed';
-    try {
-      await api.patch(`/print/${id}`, { status: nextStatus });
-      dispatch(updateJobStatusLocal({ id, status: nextStatus }));
-      toast.success(`Marked as ${nextStatus}`);
-    } catch (error) {
-      toast.error('Update failed');
-    }
-  };
+
 
   const filteredJobs = jobs.filter(job =>
     job.customerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -176,10 +167,10 @@ export default function OwnerDashboard() {
           <Table>
             <TableHeader className="bg-slate-50/50">
               <TableRow className="hover:bg-transparent border-none">
-                <TableHead className="text-[10px] uppercase font-black tracking-widest text-slate-400 py-2.5 pl-6">Customer</TableHead>
-                <TableHead className="text-[10px] uppercase font-black tracking-widest text-slate-400 py-2.5">Document</TableHead>
-                <TableHead className="text-[10px] uppercase font-black tracking-widest text-slate-400 py-2.5 text-center">Status</TableHead>
-                <TableHead className="text-right text-[10px] uppercase font-black tracking-widest text-slate-400 py-2.5 pr-6">Actions</TableHead>
+                <TableHead className="text-xs uppercase font-black tracking-widest text-slate-500 py-3 pl-6">Customer</TableHead>
+                <TableHead className="text-xs uppercase font-black tracking-widest text-slate-500 py-3">Document</TableHead>
+                <TableHead className="text-xs uppercase font-black tracking-widest text-slate-500 py-3 text-center">Status</TableHead>
+                <TableHead className="text-right text-xs uppercase font-black tracking-widest text-slate-500 py-3 pr-6">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -202,7 +193,7 @@ export default function OwnerDashboard() {
                             </AvatarFallback>
                           </Avatar>
                           <div className="flex flex-col leading-tight">
-                            <span className="font-bold text-slate-900 text-xs">{job.customerName}</span>
+                            <span className="font-bold text-slate-900 text-sm">{job.customerName}</span>
                           </div>
                         </div>
                       </TableCell>
@@ -210,10 +201,10 @@ export default function OwnerDashboard() {
                         <div className="flex items-center gap-2">
                           <FileText className="w-3.5 h-3.5 text-slate-400" />
                           <div className="flex flex-col leading-tight">
-                            <span className="text-[11px] font-bold text-slate-700 truncate max-w-[140px]">{job.fileName}</span>
-                            <div className="flex items-center gap-1.5 mt-0.5">
-                              <span className="text-[9px] font-black text-primary uppercase">{job.copies} Copies</span>
-                              <span className="text-[9px] font-black text-slate-400 uppercase">• {job.printType}</span>
+                            <span className="text-xs font-bold text-slate-700 truncate max-w-[200px]">{job.fileName}</span>
+                            <div className="flex items-center gap-2 mt-1">
+                              <span className="text-[10px] font-black text-primary uppercase">{job.copies} Copies</span>
+                              <span className="text-[10px] font-black text-slate-400 uppercase">• {job.printType}</span>
                             </div>
                           </div>
                         </div>
@@ -221,12 +212,12 @@ export default function OwnerDashboard() {
                       <TableCell className="py-2.5">
                         <div className="flex justify-center">
                           <Badge className={cn(
-                            "text-[8px] font-black uppercase px-2 py-0 h-4 border-none flex items-center gap-1",
+                            "text-[10px] font-black uppercase px-2.5 py-0.5 h-5 border-none flex items-center gap-1.5 shadow-sm",
                             job.status === 'Pending' ? "bg-amber-50 text-amber-600" :
                               job.status === 'Printing' ? "bg-sky-50 text-sky-600 animate-pulse" :
                                 "bg-emerald-50 text-emerald-600"
                           )}>
-                            <div className={cn("w-1 h-1 rounded-full",
+                            <div className={cn("w-1.5 h-1.5 rounded-full",
                               job.status === 'Pending' ? "bg-amber-500" :
                                 job.status === 'Printing' ? "bg-sky-500" : "bg-emerald-500"
                             )} />
