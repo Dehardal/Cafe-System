@@ -77,7 +77,7 @@ export default function OwnerDashboard() {
     socket.on('job_updated', (updated) => {
       dispatch(updateJobStatusLocal({ id: updated._id, status: updated.status }));
     });
-    
+
     return () => {
       socket.off('new_job');
       socket.off('job_updated');
@@ -108,8 +108,8 @@ export default function OwnerDashboard() {
     }
   };
 
-  const filteredJobs = jobs.filter(job => 
-    job.customerName.toLowerCase().includes(searchTerm.toLowerCase()) || 
+  const filteredJobs = jobs.filter(job =>
+    job.customerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
     job.fileName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -124,12 +124,7 @@ export default function OwnerDashboard() {
   return (
     <div className="space-y-4 animate-in fade-in duration-500 pb-4">
       <QRModal isOpen={isQRModalOpen} onClose={() => setIsQRModalOpen(false)} shopUrl={shopUrl} shopName={user?.shopName || 'Shop'} />
-      <FilePreviewModal 
-        isOpen={!!previewJob} 
-        onClose={() => setPreviewJob(null)} 
-        fileUrl={previewJob?.fileUrl ? (previewJob.fileUrl.startsWith('http') ? previewJob.fileUrl : `${import.meta.env.VITE_API_URL}${previewJob.fileUrl}`) : ''} 
-        fileName={previewJob?.fileName || ''} 
-      />
+      <FilePreviewModal isOpen={!!previewJob} onClose={() => setPreviewJob(null)} fileUrl={previewJob?.fileUrl} fileName={previewJob?.fileName} />
 
       {/* Stats - Compact Row */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
@@ -155,16 +150,16 @@ export default function OwnerDashboard() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Button 
-              variant="outline" 
-              size="icon" 
+            <Button
+              variant="outline"
+              size="icon"
               className="h-8 w-8 rounded-lg text-slate-400 hover:text-primary transition-colors"
               onClick={() => fetchJobs(true)}
               disabled={refreshing}
             >
               <RefreshCw className={cn("w-3.5 h-3.5", refreshing && "animate-spin")} />
             </Button>
-            <Button 
+            <Button
               onClick={() => setIsQRModalOpen(true)}
               className="h-8 bg-slate-900 text-white hover:bg-slate-800 font-black text-[10px] gap-2 px-4 rounded-lg shadow-lg shadow-slate-900/10"
             >
@@ -226,12 +221,12 @@ export default function OwnerDashboard() {
                           <Badge className={cn(
                             "text-[8px] font-black uppercase px-2 py-0 h-4 border-none flex items-center gap-1",
                             job.status === 'Pending' ? "bg-amber-50 text-amber-600" :
-                            job.status === 'Printing' ? "bg-sky-50 text-sky-600 animate-pulse" :
-                            "bg-emerald-50 text-emerald-600"
+                              job.status === 'Printing' ? "bg-sky-50 text-sky-600 animate-pulse" :
+                                "bg-emerald-50 text-emerald-600"
                           )}>
-                            <div className={cn("w-1 h-1 rounded-full", 
+                            <div className={cn("w-1 h-1 rounded-full",
                               job.status === 'Pending' ? "bg-amber-500" :
-                              job.status === 'Printing' ? "bg-sky-500" : "bg-emerald-500"
+                                job.status === 'Printing' ? "bg-sky-500" : "bg-emerald-500"
                             )} />
                             {job.status}
                           </Badge>
@@ -246,7 +241,7 @@ export default function OwnerDashboard() {
                             <Trash2 className="w-3.5 h-3.5" />
                           </Button>
                           {job.status !== 'Completed' && (
-                            <Button 
+                            <Button
                               onClick={() => handleUpdateStatus(job._id, job.status)}
                               className="h-7 rounded-lg bg-slate-900 text-white font-black text-[9px] px-2.5"
                             >
