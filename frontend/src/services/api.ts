@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:12000/api',
+  baseURL: (import.meta.env.VITE_API_URL || 'https://cafe-system-backend.onrender.com') + '/api',
 });
 
 api.interceptors.request.use((config) => {
