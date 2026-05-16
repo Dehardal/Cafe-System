@@ -11,7 +11,8 @@ import {
   QrCode,
   Eye,
   Trash2,
-  FileText
+  FileText,
+  AlertCircle
 } from 'lucide-react';
 
 import type { RootState } from '@/redux/store';
@@ -56,6 +57,8 @@ export default function OwnerDashboard() {
 
   const shopUrl = `${window.location.origin}/upload/${user?._id}`;
 
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+
   const fetchJobs = async (silent = false) => {
     if (!silent) dispatch(fetchJobsStart());
     else setRefreshing(true);
@@ -85,15 +88,15 @@ export default function OwnerDashboard() {
     };
   }, [user?._id]);
 
-  const handleDelete = async (id: string) => {
-    if (window.confirm('Delete this job?')) {
-      try {
-        await api.delete(`/print/${id}`);
-        dispatch(removeJobLocal(id));
-        toast.success('Deleted');
-      } catch (error: any) {
-        toast.error('Failed to delete');
-      }
+  const handleDelete = async () => {
+    if (!deleteId) return;
+    try {
+      await api.delete(`/print/${deleteId}`);
+      dispatch(removeJobLocal(deleteId));
+      toast.success('Job Deleted');
+      setDeleteId(null);
+    } catch (error: any) {
+      toast.error('Failed to delete');
     }
   };
 
@@ -236,7 +239,7 @@ export default function OwnerDashboard() {
                           <Button variant="ghost" size="icon" className="h-7 w-7 text-slate-400 hover:text-primary" onClick={() => setPreviewJob(job)}>
                             <Eye className="w-3.5 h-3.5" />
                           </Button>
-                          <Button variant="ghost" size="icon" className="h-7 w-7 text-slate-400 hover:text-destructive" onClick={() => handleDelete(job._id)}>
+                          <Button variant="ghost" size="icon" className="h-7 w-7 text-slate-400 hover:text-destructive" onClick={() => setDeleteId(job._id)}>
                             <Trash2 className="w-3.5 h-3.5" />
                           </Button>
                         </div>
@@ -255,6 +258,42 @@ export default function OwnerDashboard() {
           </Table>
         </div>
       </div>
+      {/* Premium Delete Confirmation Modal */}
+      <AnimatePresence>
+        {deleteId && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-slate-950/40 backdrop-blur-md">
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              className="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl border border-slate-100 flex flex-col items-center text-center"
+            >
+              <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mb-6">
+                <AlertCircle className="w-10 h-10 text-red-500" />
+              </div>
+              <h3 className="text-xl font-black text-slate-900 mb-2">Delete Job?</h3>
+              <p className="text-sm text-slate-500 mb-8 leading-relaxed">
+                This action cannot be undone. The document will be permanently removed from your queue.
+              </p>
+              <div className="flex gap-3 w-full">
+                <Button 
+                  variant="outline" 
+                  className="flex-1 h-12 rounded-2xl border-slate-200 text-slate-600 font-bold"
+                  onClick={() => setDeleteId(null)}
+                >
+                  Cancel
+                </Button>
+                <Button 
+                  className="flex-1 h-12 rounded-2xl bg-red-500 hover:bg-red-600 text-white font-bold shadow-lg shadow-red-500/20"
+                  onClick={handleDelete}
+                >
+                  Confirm
+                </Button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
