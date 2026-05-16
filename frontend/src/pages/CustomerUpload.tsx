@@ -32,7 +32,6 @@ export default function CustomerUpload() {
   const [uploaded, setUploaded] = useState(false);
   const [formData, setFormData] = useState({
     customerName: '',
-    phone: '',
     copies: 1,
     printType: 'B/W',
     notes: '',
@@ -76,7 +75,6 @@ export default function CustomerUpload() {
     data.append('file', file);
     data.append('ownerId', ownerId!);
     data.append('customerName', formData.customerName);
-    data.append('phone', formData.phone);
     data.append('copies', formData.copies.toString());
     data.append('printType', formData.printType);
     data.append('notes', formData.notes);
@@ -195,27 +193,15 @@ export default function CustomerUpload() {
             </div>
 
             {/* Form Fields */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <Label htmlFor="name">Your Full Name</Label>
-                <Input
-                  id="name"
-                  placeholder="John Doe"
-                  required
-                  value={formData.customerName}
-                  onChange={(e) => setFormData({ ...formData, customerName: e.target.value })}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="phone">Phone Number</Label>
-                <Input
-                  id="phone"
-                  placeholder="+91 98765 43210"
-                  required
-                  value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                />
-              </div>
+            <div className="space-y-2">
+              <Label htmlFor="name">Your Full Name</Label>
+              <Input
+                id="name"
+                placeholder="John Doe"
+                required
+                value={formData.customerName}
+                onChange={(e) => setFormData({ ...formData, customerName: e.target.value })}
+              />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">

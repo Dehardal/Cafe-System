@@ -200,7 +200,6 @@ export default function OwnerDashboard() {
                           </Avatar>
                           <div className="flex flex-col leading-tight">
                             <span className="font-bold text-slate-900 text-xs">{job.customerName}</span>
-                            <span className="text-[9px] text-slate-500 font-medium">{job.phone}</span>
                           </div>
                         </div>
                       </TableCell>
