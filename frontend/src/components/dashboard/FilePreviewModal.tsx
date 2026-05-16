@@ -39,7 +39,13 @@ export function FilePreviewModal({ isOpen, onClose, fileUrl, fileName }: FilePre
       setLocalUrl(null);
       setTextContent(null);
 
-      const response = await fetch(fileUrl);
+      // Get token for authenticated fetch
+      const userStr = localStorage.getItem('user');
+      const token = userStr ? JSON.parse(userStr).token : null;
+
+      const response = await fetch(fileUrl, {
+        headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+      });
       if (!response.ok) throw new Error('Fetch failed');
       const blob = await response.blob();
 
