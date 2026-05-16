@@ -12,7 +12,7 @@ const printJobSchema = mongoose.Schema({
     },
     phone: {
         type: String,
-        required: true,
+        required: false,
     },
     fileUrl: {
         type: String,
