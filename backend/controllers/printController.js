@@ -39,8 +39,9 @@ const createPrintJob = asyncHandler(async (req, res) => {
             .on('finish', () => resolve(uploadStream.id));
     });
 
-    const protocol = req.protocol;
-    const host = req.get('host');
+    // Robust URL building for Production (Force HTTPS on Render)
+    const protocol = req.headers['x-forwarded-proto'] || 'https';
+    const host = req.get('host') || 'cafe-system-backend.onrender.com';
     const fileUrl = `${protocol}://${host}/api/print/file/${filename}`;
 
     const printJob = await PrintJob.create({

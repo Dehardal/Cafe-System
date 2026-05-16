@@ -34,6 +34,7 @@ export function FilePreviewModal({ isOpen, onClose, fileUrl, fileName }: FilePre
   }, [isOpen, fileUrl]);
 
   const prepareContent = async () => {
+    if (!fileUrl) return;
     try {
       setLoading(true);
       setLocalUrl(null);
@@ -43,9 +44,13 @@ export function FilePreviewModal({ isOpen, onClose, fileUrl, fileName }: FilePre
       const userStr = localStorage.getItem('user');
       const token = userStr ? JSON.parse(userStr).token : null;
 
-      const response = await fetch(fileUrl, {
+      // Upgrade http to https for production security (prevents Mixed Content errors)
+      const secureUrl = fileUrl.replace('http://', 'https://');
+
+      const response = await fetch(secureUrl, {
         headers: token ? { 'Authorization': `Bearer ${token}` } : {}
       });
+      
       if (!response.ok) throw new Error('Fetch failed');
       const blob = await response.blob();
 
@@ -53,7 +58,6 @@ export function FilePreviewModal({ isOpen, onClose, fileUrl, fileName }: FilePre
         const text = await blob.text();
         setTextContent(text);
       } else {
-        // Correctly set PDF type for reliability
         const finalBlob = isPdf ? new Blob([blob], { type: 'application/pdf' }) : blob;
         const url = URL.createObjectURL(finalBlob);
         setLocalUrl(url);
@@ -69,7 +73,6 @@ export function FilePreviewModal({ isOpen, onClose, fileUrl, fileName }: FilePre
     if (isImage || isText) {
       window.print();
     } else if (isPdf && localUrl) {
-      // Create a hidden iframe for PDF printing using the local blob URL
       const printIframe = document.createElement('iframe');
       printIframe.style.position = 'fixed';
       printIframe.style.right = '0';
@@ -89,7 +92,8 @@ export function FilePreviewModal({ isOpen, onClose, fileUrl, fileName }: FilePre
         }, 500);
       };
     } else {
-      const printWindow = window.open(fileUrl, '_blank');
+      const secureUrl = fileUrl.replace('http://', 'https://');
+      const printWindow = window.open(secureUrl, '_blank');
       if (printWindow) {
         setTimeout(() => printWindow.print(), 1000);
       }
@@ -126,7 +130,7 @@ export function FilePreviewModal({ isOpen, onClose, fileUrl, fileName }: FilePre
             <Button 
               variant="ghost" 
               size="icon" 
-              onClick={() => window.open(fileUrl, '_blank')}
+              onClick={() => window.open(fileUrl.replace('http://', 'https://'), '_blank')}
               className="h-9 w-9 text-slate-300 hover:text-white hover:bg-white/10"
               title="Download Original"
             >
