@@ -233,7 +233,7 @@ export default function OwnerDashboard() {
                         </div>
                       </TableCell>
                       <TableCell className="text-right pr-6 py-2.5">
-                        <div className="flex items-center justify-end gap-1.5 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="flex items-center justify-end gap-1.5">
                           <Button variant="ghost" size="icon" className="h-7 w-7 text-slate-400 hover:text-primary" onClick={() => setPreviewJob(job)}>
                             <Eye className="w-3.5 h-3.5" />
                           </Button>
