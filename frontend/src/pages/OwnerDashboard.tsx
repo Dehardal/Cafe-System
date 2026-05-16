@@ -240,14 +240,6 @@ export default function OwnerDashboard() {
                           <Button variant="ghost" size="icon" className="h-7 w-7 text-slate-400 hover:text-destructive" onClick={() => handleDelete(job._id)}>
                             <Trash2 className="w-3.5 h-3.5" />
                           </Button>
-                          {job.status !== 'Completed' && (
-                            <Button
-                              onClick={() => handleUpdateStatus(job._id, job.status)}
-                              className="h-7 rounded-lg bg-slate-900 text-white font-black text-[9px] px-2.5"
-                            >
-                              {job.status === 'Pending' ? 'PRINT' : 'FINISH'}
-                            </Button>
-                          )}
                         </div>
                       </TableCell>
                     </motion.tr>
