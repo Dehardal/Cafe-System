@@ -68,10 +68,7 @@ export default function SuperAdminDashboard() {
     e.preventDefault();
     try {
       setIsLoggingIn(true);
-      const res = await api.post('/users/login', { 
-        email: adminEmail.trim(), 
-        password: adminPassword.trim() 
-      });
+      const res = await api.post('/users/login', { email: adminEmail, password: adminPassword });
       
       if (res.data.isAdmin) {
         dispatch(loginSuccess(res.data));

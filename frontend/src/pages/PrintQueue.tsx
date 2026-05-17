@@ -109,7 +109,6 @@ export default function PrintQueue() {
                         </Avatar>
                         <div className="flex flex-col">
                           <span className="font-bold text-slate-900 text-xs">{job.customerName}</span>
-                          <span className="text-[9px] text-slate-500 font-bold">{job.phone}</span>
                         </div>
                       </div>
                     </TableCell>

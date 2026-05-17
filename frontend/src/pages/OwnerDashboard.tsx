@@ -112,7 +112,7 @@ export default function OwnerDashboard() {
     pending: jobs.filter(j => j.status === 'Pending').length,
     printing: jobs.filter(j => j.status === 'Printing').length,
     completed: jobs.filter(j => j.status === 'Completed').length,
-    customers: new Set(jobs.map(j => j.phone || j.customerName)).size
+    customers: new Set(jobs.map(j => j.customerName)).size
   };
 
   return (

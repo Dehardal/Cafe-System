@@ -27,7 +27,7 @@ export default function AnalyticsPage() {
   const totalPages = jobs.reduce((acc, job) => acc + (Number(job.copies) || 1), 0);
 
   // 2. Real Customer Count
-  const uniqueUsers = new Set(jobs.map(j => j.phone || j.customerName)).size;
+  const uniqueUsers = new Set(jobs.map(j => j.customerName)).size;
   
   // 3. Estimated Revenue (₹2 for B/W, ₹5 for Color)
   const estimatedRevenue = jobs.reduce((acc, job) => {

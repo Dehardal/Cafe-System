@@ -69,7 +69,6 @@ const createPrintJob = asyncHandler(async (req, res) => {
     const printJob = await PrintJob.create({
         ownerId,
         customerName,
-        phone,
         fileUrl,
         cloudinaryId: uploadResult.toString(), // Use the actual GridFS ID
         fileName: req.file.originalname,
