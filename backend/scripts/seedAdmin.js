@@ -24,22 +24,21 @@ const seedAdmin = async () => {
         // Check if exists
         const userExists = await User.findOne({ email });
         if (userExists) {
-            console.log('💡 User already exists. Upgrading to Admin...');
+            console.log('💡 User already exists. Upgrading to Admin and updating password...');
             userExists.isAdmin = true;
             userExists.plan = 'Pro';
+            userExists.password = password; // The pre-save hook will hash this
             await userExists.save();
             console.log('👑 Upgraded existing user to SuperAdmin!');
             process.exit(0);
         }
 
         // Create new Admin
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-
+        // Do NOT hash manually, the Mongoose pre('save') hook handles hashing!
         await User.create({
             name: 'Super Admin',
             email,
-            password: hashedPassword,
+            password: password,
             shopName: 'HQ Command Center',
             isAdmin: true,
             plan: 'Pro',
