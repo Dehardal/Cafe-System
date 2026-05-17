@@ -10,9 +10,11 @@ import {
   Crown, 
   MoreVertical,
   Settings,
-  ArrowLeft
+  ArrowLeft,
+  Eye,
+  EyeOff
 } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import type { RootState } from '@/redux/store';
 import { loginSuccess } from '@/redux/slices/authSlice';
 import api from '@/services/api';
@@ -43,12 +45,12 @@ interface ShopOwner {
 export default function SuperAdminDashboard() {
   const { user } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [owners, setOwners] = useState<ShopOwner[]>([]);
   const [loading, setLoading] = useState(true);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [adminEmail, setAdminEmail] = useState('');
   const [adminPassword, setAdminPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [stats, setStats] = useState({
     totalShops: 0,
@@ -153,14 +155,23 @@ export default function SuperAdminDashboard() {
                 </div>
                 <div className="space-y-2">
                    <label className="text-[10px] font-black text-slate-500 uppercase ml-1">Cipher Key</label>
-                   <Input 
-                      type="password"
-                      placeholder="••••••••"
-                      value={adminPassword}
-                      onChange={(e) => setAdminPassword(e.target.value)}
-                      className="bg-slate-800/50 border-slate-700 text-white h-12 rounded-2xl focus:ring-indigo-500"
-                      required
-                   />
+                   <div className="relative">
+                      <Input 
+                         type={showPassword ? "text" : "password"}
+                         placeholder="••••••••"
+                         value={adminPassword}
+                         onChange={(e) => setAdminPassword(e.target.value)}
+                         className="bg-slate-800/50 border-slate-700 text-white h-12 rounded-2xl focus:ring-indigo-500 pr-12"
+                         required
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors"
+                      >
+                        {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      </button>
+                   </div>
                 </div>
                 <Button 
                    disabled={isLoggingIn}
