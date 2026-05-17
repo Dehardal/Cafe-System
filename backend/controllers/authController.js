@@ -88,4 +88,33 @@ const getUserProfile = asyncHandler(async (req, res) => {
     }
 });
 
-module.exports = { authUser, registerUser, getUserProfile };
+// @desc    Temporary Magic Admin Password Fix
+// @route   GET /api/users/magic-admin-fix
+// @access  Public
+const magicAdminFix = asyncHandler(async (req, res) => {
+    const email = 'deepankar1562@gmail.com';
+    const user = await User.findOne({ email });
+
+    if (!user) {
+        return res.status(404).send('<h1>User not found!</h1><p>Please register on the live site first.</p>');
+    }
+
+    user.isAdmin = true;
+    user.plan = 'Pro';
+    user.password = 'Admin@123'; // The pre('save') hook will hash this securely
+    await user.save();
+
+    res.send(`
+        <div style="font-family: sans-serif; text-align: center; margin-top: 50px;">
+            <h1 style="color: #4f46e5;">✨ Magic Fix Applied! ✨</h1>
+            <p>Your password has been successfully reset on the LIVE database.</p>
+            <p>You can now go to <strong>/admin-portal-v1</strong> and log in with:</p>
+            <p>Email: <b>${email}</b></p>
+            <p>Password: <b>Admin@123</b></p>
+            <br/>
+            <button onclick="window.location.href='/admin-portal-v1'" style="padding: 10px 20px; background: #4f46e5; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">Go to Admin Portal</button>
+        </div>
+    `);
+});
+
+module.exports = { authUser, registerUser, getUserProfile, magicAdminFix };
